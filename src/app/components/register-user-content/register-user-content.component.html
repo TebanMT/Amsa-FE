@@ -1,0 +1,113 @@
+<div class="content-wrapper">
+        <div class="register-logo">
+            <a routerLink="/login" class="text-center"><b>Registra</b> tus Usuarios</a>
+        </div>
+        <div class="card">
+                <div class="card-body register-card-body">
+                    <p class="login-box-msg">Registra tus Usuarios</p>
+                    <form [formGroup]="registerFormUser" (ngSubmit)="onSubmit()">
+                        <div class="input-group mb-3">
+                            <input type="text" formControlName="usuario_nombre" class="form-control" placeholder="Nombre" [ngClass]="{ 'is-invalid': submittedUser && u.usuario_nombre.errors }">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user"></span>
+                                </div>
+                            </div>
+                            <div *ngIf="submittedUser && u.usuario_nombre.errors" class="invalid-feedback">
+                                <div *ngIf="u.usuario_nombre.errors.required">Nombre es requerido</div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="text" formControlName="usuario_apellido_p" class="form-control" placeholder="Apellido Paterno" [ngClass]="{ 'is-invalid': submittedUser && u.usuario_apellido_p.errors }">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-envelope"></span>
+                                </div>
+                            </div>
+                            <div *ngIf="submittedUser && u.usuario_apellido_p.errors" class="invalid-feedback">
+                                <div *ngIf="u.usuario_apellido_p.errors.required">El Apellido Paterno requerido</div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" formControlName="usuario_apellido_m" placeholder="Apellido Materno" [ngClass]="{ 'is-invalid': submittedUser && u.usuario_apellido_m.errors }">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user"></span>
+                                </div>
+                            </div>
+                            <div *ngIf="submittedUser && u.usuario_apellido_m.errors" class="invalid-feedback">
+                                <div *ngIf="u.usuario_apellido_m.errors.required">El Apellido Materno es requerido</div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                                <input type="text" formControlName="usuario_correo" class="form-control" placeholder="Email (opcional)" [ngClass]="{ 'is-invalid': submittedUser && u.usuario_correo.errors }">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-user"></span>
+                                    </div>
+                                </div>
+                                <div *ngIf="submittedUser && u.usuario_correo.errors" class="invalid-feedback">
+                                    <div *ngIf="u.usuario_correo.errors.required">Email es requerido</div>
+                                </div>
+                            </div>
+                            <div class="input-group mb-3">
+                                    <input type="text" formControlName="usuario_nombre_usuario" class="form-control" placeholder="Nombre de Usuario" [ngClass]="{ 'is-invalid': submittedUser && u.usuario_nombre_usuario.errors }">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-user"></span>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="submittedUser && u.usuario_nombre_usuario.errors" class="invalid-feedback">
+                                        <div *ngIf="u.usuario_nombre_usuario.errors.required">El nombre de usuario es requerido</div>
+                                    </div>
+                                </div>
+                        <div class="input-group mb-3">
+                            <input type="password" formControlName="usuario_password" class="form-control" placeholder="Password" [ngClass]="{ 'is-invalid': submittedUser && u.usuario_password.errors }">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock"></span>
+                                </div>
+                            </div>
+                            <div *ngIf="submittedUser && u.usuario_password.errors" class="invalid-feedback">
+                                <div *ngIf="u.usuario_password.required">La contraseña es requerida</div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="password" formControlName="usuario_retry_password" class="form-control" placeholder="Vuelva a ingresar su password" [ngClass]="{ 'is-invalid': submittedUser && u.usuario_retry_password.errors }">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock"></span>
+                                </div>
+                            </div>
+                            <div *ngIf="submittedUser && u.usuario_retry_password.errors" class="invalid-feedback">
+                                <div *ngIf="u.usuario_retry_password.required">La contraseña es requerida</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="icheck-primary">
+                                    <input [value]="usuario_check" type="checkbox" id="user" name="user" value="agree" (change)="usuarioChange($event)">
+                                    <label for="user">
+                                        Usuario
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="icheck-primary">
+                                    <input [value]="admin_check" type="checkbox" id="admin" name="admin" value="agree" (change)="adminChange($event)">
+                                    <label for="admin">
+                                        Administrador
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-4">
+                                <button *ngIf="!loading" type="submit" class="btn btn-primary btn-block">Registrar</button>
+                                <img *ngIf="loading" class="pl-3" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                            </div>
+                        <!-- /.col -->
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.card -->
+</div>

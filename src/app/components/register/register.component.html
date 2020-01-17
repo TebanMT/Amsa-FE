@@ -1,0 +1,185 @@
+<div class="register-box">
+    <div class="register-logo">
+        <a routerLink="/login" class="text-center"><b>Admin</b> Track The Way</a>
+    </div>
+
+    <div class="card" *ngIf="!showUserForm">
+        <div class="card-body register-card-body">
+            <p class="login-box-msg">Registra tu Empresa</p>
+            <form [formGroup]="registerFormEmpresa" (ngSubmit)="changeUserForm()">
+                <div class="input-group mb-3">
+                    <input type="text" formControlName="empresa_nombre" class="form-control" placeholder="Name de tu Empresa" [ngClass]="{ 'is-invalid': submittedEmpresa && f.empresa_nombre.errors }">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                    <div *ngIf="submittedEmpresa && f.empresa_nombre.errors" class="invalid-feedback">
+                        <div *ngIf="f.empresa_nombre.errors.required">Nombre es requerido</div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="email" formControlName="empresa_correo" class="form-control" placeholder="Email de contacto" [ngClass]="{ 'is-invalid': submittedEmpresa && f.empresa_correo.errors }">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                    <div *ngIf="submittedEmpresa && f.empresa_correo.errors" class="invalid-feedback">
+                        <div *ngIf="f.empresa_correo.errors.required">Email es requerido</div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" formControlName="empresa_pais" placeholder="Pais" [ngClass]="{ 'is-invalid': submittedEmpresa && f.empresa_pais.errors }">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                    <div *ngIf="submittedEmpresa && f.empresa_pais.errors" class="invalid-feedback">
+                        <div *ngIf="f.empresa_pais.errors.required">Pais es requerido</div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                        <input type="text" formControlName="empresa_estado" class="form-control" placeholder="Estado" [ngClass]="{ 'is-invalid': submittedEmpresa && f.empresa_estado.errors }">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                        <div *ngIf="submittedEmpresa && f.empresa_estado.errors" class="invalid-feedback">
+                            <div *ngIf="f.empresa_estado.errors.required">Estado es requerido</div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                            <input type="text" formControlName="empresa_direccion" class="form-control" placeholder="Direccion" [ngClass]="{ 'is-invalid': submittedEmpresa && f.empresa_direccion.errors }">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user"></span>
+                                </div>
+                            </div>
+                            <div *ngIf="submittedEmpresa && f.empresa_direccion.errors" class="invalid-feedback">
+                                <div *ngIf="f.empresa_direccion.errors.required">La Direccion es requerido</div>
+                            </div>
+                        </div>
+                <div class="row">
+                    <div class="col-8">
+                        <div class="icheck-primary">
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary btn-block">Siguiente</button>
+                    </div>
+                <!-- /.col -->
+                </div>
+            </form>
+            <a routerLink="/login" class="text-center">Ya cuento con una cuenta</a>
+        </div>
+    </div><!-- /.card -->
+
+
+    <div class="card" *ngIf="showUserForm">
+            <div class="card-body register-card-body">
+                <p class="login-box-msg">Registra tu Administrador</p>
+                <form [formGroup]="registerFormUser" (ngSubmit)="onSubmit()">
+                    <div class="input-group mb-3">
+                        <input type="text" formControlName="usuario_nombre" class="form-control" placeholder="Nombre" [ngClass]="{ 'is-invalid': submittedUser && u.usuario_nombre.errors }">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                        <div *ngIf="submittedUser && u.usuario_nombre.errors" class="invalid-feedback">
+                            <div *ngIf="u.usuario_nombre.errors.required">Nombre es requerido</div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" formControlName="usuario_apellido_p" class="form-control" placeholder="Apellido Paterno" [ngClass]="{ 'is-invalid': submittedUser && u.usuario_apellido_p.errors }">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                        <div *ngIf="submittedUser && u.usuario_apellido_p.errors" class="invalid-feedback">
+                            <div *ngIf="u.usuario_apellido_p.errors.required">El Apellido Paterno requerido</div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" formControlName="usuario_apellido_m" placeholder="Apellido Materno" [ngClass]="{ 'is-invalid': submittedUser && u.usuario_apellido_m.errors }">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                        <div *ngIf="submittedUser && u.usuario_apellido_m.errors" class="invalid-feedback">
+                            <div *ngIf="u.usuario_apellido_m.errors.required">El Apellido Materno es requerido</div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                            <input type="text" formControlName="usuario_correo" class="form-control" placeholder="Email (opcional)" [ngClass]="{ 'is-invalid': submittedUser && u.usuario_correo.errors }">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user"></span>
+                                </div>
+                            </div>
+                            <div *ngIf="submittedUser && u.usuario_correo.errors" class="invalid-feedback">
+                                <div *ngIf="u.usuario_correo.errors.required">Email es requerido</div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                                <input type="text" formControlName="usuario_nombre_usuario" class="form-control" placeholder="Nombre de Usuario" [ngClass]="{ 'is-invalid': submittedUser && u.usuario_nombre_usuario.errors }">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-user"></span>
+                                    </div>
+                                </div>
+                                <div *ngIf="submittedUser && u.usuario_nombre_usuario.errors" class="invalid-feedback">
+                                    <div *ngIf="u.usuario_nombre_usuario.errors.required">El nombre de usuario es requerido</div>
+                                </div>
+                            </div>
+                    <div class="input-group mb-3">
+                        <input type="password" formControlName="usuario_password" class="form-control" placeholder="Password" [ngClass]="{ 'is-invalid': submittedUser && u.usuario_password.errors }">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                        <div *ngIf="submittedUser && u.usuario_password.errors" class="invalid-feedback">
+                            <div *ngIf="u.usuario_password.required">La contraseña es requerida</div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" formControlName="usuario_retry_password" class="form-control" placeholder="Vuelva a ingresar su password" [ngClass]="{ 'is-invalid': submittedUser && u.usuario_retry_password.errors }">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                        <div *ngIf="submittedUser && u.usuario_retry_password.errors" class="invalid-feedback">
+                            <div *ngIf="u.usuario_retry_password.required">La contraseña es requerida</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="icheck-primary">
+                                <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+                                <label for="agreeTerms">
+                                    Acepto los <a href="#">terminos</a>
+                                </label>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-4">
+                            <button *ngIf="!loading" type="submit" class="btn btn-primary btn-block">Registrar</button>
+                            <img *ngIf="loading" class="pl-3" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                        </div>
+                    <!-- /.col -->
+                    </div>
+                </form>
+                <a (click)="changeEmpresaForm()" class="text-center">Volver a registro de empresa</a>
+                <br>
+                <a routerLink="/login" class="text-center">Ya cuento con una cuenta</a>
+            </div>
+        </div><!-- /.card -->
+</div><!-- /.form-box -->
