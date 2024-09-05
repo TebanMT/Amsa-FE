@@ -1,0 +1,58 @@
+.login-component {
+  max-width: 450px;
+  width: 100%;
+  margin: auto;
+}
+
+.login-component .card {
+  border: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,.05);
+}
+
+.login-component .nav-tabs .nav-link {
+    cursor: pointer; /* Esto cambiará el cursor a una 'mano' */
+    color: #495057;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: .5rem 1rem;
+  }
+  
+
+  .login-component .nav-tabs .nav-item {
+    width: 50%;
+    text-align: center;
+  }
+
+
+  .login-component .nav-tabs .nav-link.active {
+    font-weight: bold;
+    border-color: #0d6efd;
+  }
+
+.login-component .form-label {
+  font-size: 0.875rem;
+}
+
+.login-component .btn-primary {
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+  width: 100%;
+}
+
+.login-component .btn-primary:hover {
+  background-color: #138496;
+  border-color: #117a8b;
+  width: 100%;
+}
+
+.login-component a {
+  text-decoration: none;
+  display: block;
+    width: 100%;
+    text-align-last: center;
+}
+
+.login-component a:hover {
+  text-decoration: underline;
+}

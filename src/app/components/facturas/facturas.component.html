@@ -1,0 +1,128 @@
+<div class="content-wrapper">
+    <div class="register-logo">
+        <a class="text-center"><b>Listado</b> de Facturas</a>
+    </div>
+    <div class="card">
+
+
+      <div class="card-header"><!-- Grupo de Búsqueda con Selector de Clientes -->
+        <div class="input-group">
+            <select class="custom-select" (change)="onClienteSelected($event)" [(ngModel)]="selectedCliente">
+              <option value="0" selected>--- Selecciona un Cliente ---</option>
+              <option *ngFor="let c of facturas" [value]="c.id">{{c.name}}</option>
+            </select>
+            <select class="custom-select" [(ngModel)]="productSearch" (change)="onProductsSelected($event)">
+              <option value="0" selected>--- Selecciona un Producto ---</option>
+              <option *ngFor="let p of products" [value]="p.ID">{{p.Name}}</option>
+              <!-- Más categorías aquí -->
+          </select>
+
+          <!-- Botón para agregar nuevo registro -->
+        <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#nuevaFacturaModal">
+          <i class="fas fa-plus"></i> Nueva Factura
+        </button>
+        </div>
+      </div>
+        <!-- /.card-header -->
+        <div class="card-body" *ngFor="let v of selectedFacturas ; let i = index">
+          <caption style="display:contents">Cliente: <b> {{ v.name }}</b> </caption>
+          <table id="facturas" class="table table-striped" >
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Folio</th>
+                <th (click)="sortBy('Date', i)">Fecha <span *ngIf="sortField === 'Date'">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span></th>
+                <th>Total</th>
+                <th>Ver Detalle</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let v of v.Bills | filterSuppliers: searchText: propertyName">
+                <td>{{ v.ID }}</td>
+                <td>{{ v.Folio }}</td>
+                <td>{{ v.Date | date: 'yyyy-MM-dd':'UTC' }}</td>
+                <td>{{ v.Total }}</td>
+                <td>
+                  <!-- Icono de Editar -->
+                  <button class="btn btn-primary btn-sm" style="margin-right: 10px;" title="Ver Detalle" data-toggle="modal"  data-target="#detalleFacturaModal" (click)="setFactura(v)">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+</div>
+
+
+<div class="modal fade" #nuevaFacturaModal id="nuevaFacturaModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document"> <!-- Ajusta aquí para un modal más ancho -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modalLabel" style="text-align: center; width: 100%;"><b>Nueva</b> Factura</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-nueva-factura-form (closeModalEvent)="closeModal()" [user]="currentUser" [clients]="clients" [products]="products"></app-nueva-factura-form> <!-- Tu componente de formulario -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" #detalleFacturaModal id="detalleFacturaModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document"> <!-- Ajusta aquí para un modal más ancho -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modalLabel" style="text-align: center; width: 100%;"><b>Productos</b> Vendidos</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="currentFactura">
+        <div class="table-responsive">
+          <table id="facturas" class="table table-striped" >
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Clave</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>De</th>
+                <th>Precio</th>
+                <th>IVA</th>
+                <th>Subtotal</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let v of currentFactura.Details | filterSuppliers: searchText: propertyName">
+                <td>{{ v.ID }}</td>
+                <td>{{ v.ProductClave }}</td>
+                <td>{{ v.ProductName }}</td>
+                <td>{{ v.Quantity }}</td>
+                <td>Almacen</td>
+                <td>{{ v.UnitaryPrice }}</td>
+                <td>{{ v.Iva}}</td>
+                <td>{{ v.TotalPrice - v.Iva }}</td>
+                <td>{{ v.TotalPrice }}</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                  <th colspan="7">Total</th>
+                  <th>{{totalCurrentVenta()}}</th>
+              </tr>
+          </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

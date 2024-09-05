@@ -1,0 +1,91 @@
+<div class="card">
+    <div class="card-body register-card-body">
+      <form [formGroup]="registerFormSuppliers" (ngSubmit)="onSubmit()">
+        <!-- Nombre -->
+        <div class="input-group mb-3">
+          <input type="text" formControlName="name" class="form-control" placeholder="Nombre Negocio" [ngClass]="{ 'is-invalid': submittedSuppliers && u.name.errors }">
+          <div class="input-group-append">
+            <div title="Nombre del Negocio" class="input-group-text">
+              <span class="fas fa-user"></span>
+            </div>
+          </div>
+          <div *ngIf="submittedSuppliers && u.name.errors" class="invalid-feedback">
+            <div *ngIf="u.name.errors.required">El Nombre es requerido</div>
+          </div>
+        </div>
+
+        <!-- Categoria -->
+        <div class="input-group mb-3">
+            <input type="text" formControlName="category" class="form-control" placeholder="Categoria de Gastos" [ngClass]="{ 'is-invalid': submittedSuppliers && u.category.errors }">
+            <div class="input-group-append">
+              <div title="Categoria de Gastos" class="input-group-text">
+                <span class="fa fa-archive"></span>
+              </div>
+            </div>
+            <div *ngIf="submittedSuppliers && u.category.errors" class="invalid-feedback">
+                <div *ngIf="u.category.errors.required">La Categoria es requerida</div>
+            </div>
+        </div>
+
+        <!-- Representante Ejecutivo -->
+        <div class="input-group mb-3">
+            <input type="text" formControlName="executive" class="form-control" placeholder="Representante Ejecutivo">
+            <div class="input-group-append">
+              <div title="Nombre del Representante de la Empresa" class="input-group-text">
+                <span class="fa fa-suitcase"></span>
+              </div>
+            </div>
+        </div>
+  
+        <!-- Teléfono -->
+        <div class="input-group mb-3">
+          <input type="text" formControlName="phone" class="form-control" placeholder="Teléfono">
+          <div class="input-group-append">
+            <div title="Telefono de Contacto" class="input-group-text">
+              <span class="fas fa-phone"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="input-group mb-3">
+            <input type="email" formControlName="email" class="form-control" placeholder="Email">
+            <div class="input-group-append">
+              <div title="Correo de Contacto" class="input-group-text">
+                <span class="fas fa-envelope"></span>
+              </div>
+            </div>
+        </div>
+
+        <!-- Dirección -->
+        <div class="input-group mb-3">
+          <textarea formControlName="address" class="form-control" placeholder="Dirección" rows="3"></textarea>
+          <div class="input-group-append">
+            <div title="Dirección de la Empresa" class="input-group-text">
+              <span class="fas fa-home"></span>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Descripción -->
+        <div class="input-group mb-3">
+          <textarea formControlName="description" class="form-control" placeholder="Descripción" rows="3"></textarea>
+          <div class="input-group-append">
+            <div title="Descripción Abierta" class="input-group-text">
+              <span class="fas fa-align-left"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botón de Registro -->
+        <div class="row">
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary btn-block">{{actionLabel}}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <ngx-spinner type="ball-scale-multiple"></ngx-spinner>

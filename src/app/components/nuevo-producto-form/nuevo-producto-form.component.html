@@ -1,0 +1,156 @@
+<div class="card">
+    <div class="card-body register-card-body">
+      <form [formGroup]="registerFormProduct" (ngSubmit)="onSubmit()">
+        <!-- Clave -->
+        <div class="input-group mb-3">
+            <input type="text" formControlName="clave" class="form-control" (blur)="checkClave()" placeholder="Clave del Producto" [ngClass]="{ 'is-invalid': submittedProduct && u.clave.errors || isDuplicate }">
+            <div class="input-group-append">
+              <div title="Clave del Producto" class="input-group-text">
+                <span class="fas fa-key"></span>
+              </div>
+            </div>
+
+            <div *ngIf="isDuplicate" class="invalid-feedback">
+                <div *ngIf="isDuplicate">La clave debe ser única y no puede duplicarse</div>
+              </div>
+            
+            <div *ngIf="submittedProduct && u.clave.errors" class="invalid-feedback">
+              <div *ngIf="u.clave.errors.required">La Clave es requerida</div>
+            </div>
+          </div>
+
+        <!-- Nombre -->
+        <div class="input-group mb-3">
+          <input type="text" formControlName="name" class="form-control" placeholder="Nombre del Producto" [ngClass]="{ 'is-invalid': submittedProduct && u.name.errors }">
+          <div class="input-group-append">
+            <div title="Nombre del Producto" class="input-group-text">
+              <span class="fa fa-font"></span>
+            </div>
+          </div>
+          <div *ngIf="submittedProduct && u.name.errors" class="invalid-feedback">
+            <div *ngIf="u.name.errors.required">El Nombre es requerido</div>
+          </div>
+        </div>
+
+        <!-- Categoria -->
+        <div class="input-group mb-3">
+
+            <ng-select [items]="categories"
+            class="form-control"
+            bindLabel="Name"
+            [addTag]="addTagFn"
+            addTagText="Agregar "
+            formControlName="category"
+            [ngClass]="{ 'is-invalid': submittedProduct && u.category.errors }"
+            placeholder="{{pp}}"
+            (change)="onChange($event)">
+            </ng-select>
+
+
+
+            <!--input type="text" formControlName="category" class="form-control" placeholder="Categoria" [ngClass]="{ 'is-invalid': submittedProduct && u.category.errors }"-->
+            <div class="input-group-append">
+              <div title="Categoria del Producto" class="input-group-text">
+                <span class="fa fa-archive"></span>
+              </div>
+            </div>
+            <div *ngIf="submittedProduct && u.category.errors" class="invalid-feedback">
+                <div *ngIf="u.category.errors.required">La Categoria es requerida</div>
+            </div>
+        </div>
+
+
+        <!-- Unit -->
+        <div class="input-group mb-3">
+          <ng-select [items]="units"
+            class="form-control"
+            bindLabel="Name"
+            [addTag]="addTagFnUnits"
+            addTagText="Agregar "
+            formControlName="unit"
+            [ngClass]="{ 'is-invalid': submittedProduct && u.unit.errors }"
+            placeholder="{{ppUnit}}"
+            (change)="onChangeUnitSelect($event)">
+          </ng-select>
+
+            <!--input type="text" formControlName="unit" class="form-control" placeholder="Unidad" [ngClass]="{ 'is-invalid': submittedProduct && u.unit.errors }"-->
+            <div class="input-group-append">
+              <div title="Unidad del Producto" class="input-group-text">
+                <span class="fa fa-balance-scale"></span>
+              </div>
+            </div>
+            <div *ngIf="submittedProduct && u.unit.errors" class="invalid-feedback">
+                <div *ngIf="u.unit.errors.required">La Unidad es requerida</div>
+            </div>
+        </div>
+  
+        <!-- Costo -->
+        <div class="input-group mb-3" *ngIf="idType == 1">
+          <input type="number" formControlName="costo" class="form-control" placeholder="Costo" [ngClass]="{ 'is-invalid': submittedProduct && u.costo.errors }">
+          <div class="input-group-append">
+            <div title="Costo del Producto" class="input-group-text">
+              <span class="fa fa-money-bill"></span>
+            </div>
+          </div>
+            <div *ngIf="submittedProduct && u.costo.errors" class="invalid-feedback">
+                <div *ngIf="u.costo.errors.required">El Costo es requerida</div>
+            </div>
+        </div>
+        
+        <!-- Precio -->
+        <div class="input-group mb-3">
+            <input type="number" formControlName="precio" class="form-control" placeholder="Precio" [ngClass]="{ 'is-invalid': submittedProduct && u.precio.errors }">
+            <div class="input-group-append">
+              <div title="Precio de Venta" class="input-group-text">
+                <span class="fa fa-money-bill"></span>
+              </div>
+            </div>
+              <div *ngIf="submittedProduct && u.precio.errors" class="invalid-feedback">
+                  <div *ngIf="u.precio.errors.required">El Precio es requerida</div>
+              </div>
+          </div>
+
+        <!-- Precio + IVA -->
+        <div class="mb-3">
+            <label for="iva">Seleccione el porcentaje de IVA:</label>
+            <div class="input-group">
+                <select id="iva" name="iva" [(ngModel)]="ivaSeleccionado" [ngModelOptions]="{standalone: true}"  class="form-control">
+                    <option *ngFor="let opcion of porcentajesIVA" [value]="opcion.valor">
+                        {{ opcion.texto }}
+                      </option>
+                </select>
+                <span class="input-group-text" style="margin-right: 10px;">%</span>
+                <input type="number" [ngModel]="precioIva" [ngModelOptions]="{standalone: true}" readonly class="form-control" placeholder="Iva" style="margin-right: 10px;">
+                <div class="input-group-append">
+                </div>
+                <input type="number" [ngModel]="precioTotal" [ngModelOptions]="{standalone: true}" readonly class="form-control" placeholder="Precio + Iva">
+                <div class="input-group-append">
+                </div>
+            </div>
+        </div>
+        
+          
+                
+
+        <!-- Nota -->
+        <div class="input-group mb-3">
+          <textarea formControlName="nota" class="form-control" placeholder="Nota" rows="3"></textarea>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-commenting"></span>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Botón de Registro -->
+        <div class="row">
+          <div class="col-12">
+            <button [disabled]=isDuplicate type="submit" class="btn btn-primary btn-block">{{actionLabel}}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <ngx-spinner type="ball-scale-multiple"></ngx-spinner>

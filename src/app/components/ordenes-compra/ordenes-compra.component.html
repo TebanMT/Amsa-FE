@@ -1,0 +1,127 @@
+<div class="content-wrapper">
+    <div class="register-logo">
+        <a class="text-center"><b>Listado</b> de Ordenes de Compra</a>
+    </div>
+    <div class="card">
+
+
+      <div class="card-header"><!-- Grupo de Búsqueda con Selector de Clientes -->
+        <div class="input-group">
+            <select class="custom-select" (change)="onProveedorSelected($event)" [(ngModel)]="selectedProveedor">
+              <option value="0" selected>--- Selecciona un Proveedor ---</option>
+              <option *ngFor="let c of proveedores" [value]="c.ID">{{c.Name}}</option>
+            </select>
+            <select class="custom-select" [(ngModel)]="productSearch" (change)="onProductsSelected($event)">
+              <option value="0" selected>--- Selecciona un Producto ---</option>
+              <option *ngFor="let p of products" [value]="p.ID">{{p.Name}}</option>
+              <!-- Más categorías aquí -->
+          </select>
+
+          <!-- Botón para agregar nuevo registro -->
+        <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#nuevaOrdenCompraModal">
+          <i class="fas fa-plus"></i> Nueva Orden de Compra
+        </button>
+        </div>
+      </div>
+        <!-- /.card-header -->
+        <div class="card-body" *ngFor="let v of selectedOrdenesCompra ; let i = index">
+          <caption style="display:contents">Proveedor: <b> {{ v.Name }}</b> </caption>
+          <table id="ordenes" class="table table-striped" >
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Folio</th>
+                <th (click)="sortBy('Date', i)">Fecha <span *ngIf="sortField === 'Date'">{{ sortOrder === 'asc' ? '↑' : '↓' }}</span></th>
+                <th>Total</th>
+                <th>Ver Detalle</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let v of v.Orders | filterSuppliers: searchText: propertyName">
+                <td>{{ v.ID }}</td>
+                <td>{{ v.Folio }}</td>
+                <td>{{ v.OrderDate | date: 'yyyy-MM-dd':'UTC' }}</td>
+                <td>{{ v.Total }}</td>
+                <td>
+                  <!-- Icono de Editar -->
+                  <button class="btn btn-primary btn-sm" style="margin-right: 10px;" title="Ver Detalle" data-toggle="modal"  data-target="#detalleOrdeCompraModal" (click)="setOrdeCompra(v)">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+</div>
+
+
+<div class="modal fade" #nuevaOrdenCompraModal id="nuevaOrdenCompraModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document"> <!-- Ajusta aquí para un modal más ancho -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modalLabel" style="text-align: center; width: 100%;"><b>Nueva</b> Orden de Compra</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-nueva-orden-compra (closeModalEvent)="closeModal()" [user]="currentUser" [proveedores]="proveedores" [productsCompra]="products"></app-nueva-orden-compra> <!-- Tu componente de formulario -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" #detalleOrdeCompraModal id="detalleOrdeCompraModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document"> <!-- Ajusta aquí para un modal más ancho -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modalLabel" style="text-align: center; width: 100%;"><b>Productos</b> Comprados</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="currentOrdenCompra">
+        <div class="table-responsive">
+          <table id="facturas" class="table table-striped" >
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Clave</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>De</th>
+                <th>Precio</th>
+                <th>IVA (%)</th>
+                <th>Subtotal</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let v of currentOrdenCompra.Details | filterSuppliers: searchText: propertyName">
+                <td>{{ v.ID }}</td>
+                <td>{{ v.ProductClave }}</td>
+                <td>{{ v.ProductName }}</td>
+                <td>{{ v.Quantity }}</td>
+                <td>Almacen</td>
+                <td>{{ v.UnitaryPrice }}</td>
+                <td>{{ v.Iva}}</td>
+                <td>{{ v.TotalPrice - v.Iva }}</td>
+                <td>{{ v.TotalPrice }}</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                  <th colspan="7">Total</th>
+                  <th>{{totalCurrentVenta()}}</th>
+              </tr>
+          </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

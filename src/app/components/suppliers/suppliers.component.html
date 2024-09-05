@@ -1,0 +1,168 @@
+
+
+
+
+
+<div class="content-wrapper">
+    <div class="register-logo">
+        <a class="text-center"><b>Listado</b> Proveedores</a>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="container mt-4">
+                <div class="row mb-2">
+                    <div class="col-lg-6">
+                        <!-- Grupo de Búsqueda con Selector de Categoría -->
+                        <div class="input-group">
+                            <select class="custom-select" id="categorySelect" [(ngModel)]="propertyName">
+                                <option value="Name" selected>Buscar Por...</option>
+                                <option value="Name">Nombre</option>
+                                <option value="Category">Categoría</option>
+                                <!-- Más categorías aquí -->
+                            </select>
+                            <input type="text"  [(ngModel)]="searchText" class="form-control" placeholder="Buscar...">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <!-- Selector de Estado del Proveedor -->
+                        <select class="form-control" (change)="selectTableView($event.target.value)">
+                            <option value="activos">Ver Activos</option>
+                            <option value="inactivos">Ver Inactivos</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
+                        <!-- Botón para Agregar Proveedor -->
+                        <button type="button" class="btn btn-success w-100"  data-toggle="modal" data-target="#nuevoProveedorModal"> <i class="fas fa-plus"></i> Agregar Proveedor</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <table id="suppliers" class="table table-striped" >
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Negocio</th>
+                <th>Cat. de Gastos</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let s of suppliers | filterSuppliers: searchText: propertyName">
+                <td>{{ s.ID }}</td>
+                <td>{{ s.Name }}</td>
+                <td>{{ s.Category }}</td>
+                <td>{{ s.Email }}</td>
+                <td>{{ s.Phone }}</td>
+                <td>
+                    <!-- Icono de Editar -->
+                    <button class="btn btn-primary btn-sm" style="margin-right: 10px;" title="Editar Proveedor" data-toggle="modal"  data-target="#editarModal" (click)="setSuppliers(s)">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <!-- Icono de Eliminar -->
+                    <button class="btn btn-danger btn-sm" style="margin-right: 10px;" title="Eliminar Proveedor" data-toggle="modal"  data-target="#eliminarProveedorModal" (click)="setSuppliers(s)">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>#</th>
+                <th>Negocio</th>
+                <th>Cat. de Gastos</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+              </tr>
+            </tfoot>
+          </table>
+
+          <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-end" >
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+                <li class="page-item active" *ngFor="let p of pages"><a class="page-link" href="#">{{p}}</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+          </nav>
+
+        </div>
+        <!-- /.card-body -->
+      </div>
+</div>
+
+
+
+
+<div class="modal fade" #nuevoProveedorModal id="nuevoProveedorModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="modalLabel" style="text-align: center; width: 100%;"><b>Nuevo</b> Proveedor</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <app-nuevo-proveedor-form (closeModalEvent)="closeModal()"></app-nuevo-proveedor-form>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<!-- Modal para Editar -->
+<div class="modal fade" #editarModal id="editarModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="modalLabel" style="text-align: center; width: 100%;"><b>Editar</b> Proveedor</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <app-nuevo-proveedor-form (closeModalEvent)="closeModalEditar()" [currentSupplier]="supplier"></app-nuevo-proveedor-form>
+          </div>
+        </div>
+      </div>
+  </div>
+  
+
+
+<!-- Modal para Eliminar Proveedor -->
+<div class="modal fade" #eliminarProveedorModal id="eliminarProveedorModal" tabindex="-1" role="dialog" aria-labelledby="eliminarProveedorModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="eliminarProveedorModalLabel">Eliminar Proveedor</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cerrarModalEliminar()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <h5>¿Estás seguro de que deseas desactivar este Proveedor?</h5>
+            <h6>Esta acción no se puede deshacer.</h6>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="confirmarEliminacion()">Sí, Desactivar</button>
+          <button type="button" class="btn btn-secondary" (click)="cerrarModalEliminar()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ngx-spinner type="ball-scale-multiple"></ngx-spinner>

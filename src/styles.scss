@@ -1,1 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+
+app-root {
+    display: block;
+    width: 100%;
+    /* otros estilos */
+  }
+
+  /* Personaliza el panel desplegable */
+.ng-dropdown-panel {
+  background-color: #ffffff; /* Establece un color de fondo sólido */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Opcional: Añade una sombra para mejor contraste */
+  border: 1px solid #ccc; /* Opcional: Añade un borde para definir los límites */
+}
+
+/* Personaliza las opciones individuales */
+.ng-option {
+  background-color: #ffffff; /* Asegura que cada opción tenga un fondo sólido */
+  color: #333; /* Color del texto para asegurar legibilidad */
+}
+
+/* Personaliza el estado de hover de las opciones */
+.ng-option:hover, .ng-option.selected {
+  background-color: #f0f0f0; /* Cambia el color de fondo para hover y selección */
+  color: #000; /* Asegura que el texto sea legible en estado hover/selección */
+}

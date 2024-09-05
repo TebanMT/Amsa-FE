@@ -1,0 +1,104 @@
+
+<div class="card">
+    <div class="card-body register-card-body">
+      <form [formGroup]="registerFormUser" (ngSubmit)="onSubmit()">
+        <!-- Nombre -->
+        <div class="input-group mb-3">
+          <input type="text" formControlName="name" class="form-control" placeholder="Nombre" [ngClass]="{ 'is-invalid': submittedUser && u.name.errors }">
+          <div class="input-group-append">
+            <div title="Nombre del Cliente" class="input-group-text">
+              <span class="fas fa-user"></span>
+            </div>
+          </div>
+          <div *ngIf="submittedUser && u.name.errors" class="invalid-feedback">
+            <div *ngIf="u.name.errors.required">Nombre es requerido</div>
+          </div>
+        </div>
+  
+        <!-- Teléfono -->
+        <div class="input-group mb-3">
+          <input type="text" formControlName="phone" class="form-control" placeholder="Teléfono">
+          <div class="input-group-append">
+            <div title="Telefono de Contacto" class="input-group-text">
+              <span class="fas fa-phone"></span>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Dirección -->
+        <div class="input-group mb-3">
+          <textarea formControlName="address" class="form-control" placeholder="Dirección" [ngClass]="{ 'is-invalid': submittedUser && u.address.errors }" rows="3"></textarea>
+          <div class="input-group-append">
+            <div title="Dirección del Cliente" class="input-group-text">
+              <span class="fas fa-home"></span>
+            </div>
+          </div>
+          <div *ngIf="submittedUser && u.address.errors" class="invalid-feedback">
+            <div *ngIf="u.address.errors.required">Dirección es requerida</div>
+          </div>
+        </div>
+  
+        <!-- Email -->
+        <div class="input-group mb-3">
+          <input type="email" formControlName="email" class="form-control" placeholder="Email">
+          <div class="input-group-append">
+            <div title="Correo de Contacto" class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Descripción -->
+        <div class="input-group mb-3">
+          <input type="text" formControlName="description" class="form-control" placeholder="Descripción">
+          <div class="input-group-append">
+            <div title="Descripción Abierta" class="input-group-text">
+              <span class="fas fa-align-left"></span>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Sección de Contacto (Opcional) -->
+        <div formArrayName="contacts">
+          <div *ngFor="let contact of contacts.controls; let i = index" [formGroupName]="i">
+            <div class="mb-3">
+              <p class="text-bold">Contacto (Opcional)</p>
+              <div class="input-group mb-3">
+                <input type="text" formControlName="name" class="form-control" placeholder="Nombre de Contacto">
+                <div title="Nombre del Contacto" class="input-group-append">
+                  <div class="input-group-text">
+                    <span class="fas fa-user"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <input type="email" formControlName="email" class="form-control" placeholder="Email de Contacto">
+                <div class="input-group-append">
+                  <div title="Correo del Contacto" class="input-group-text">
+                    <span class="fas fa-envelope"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <input type="text" formControlName="phone" class="form-control" placeholder="Teléfono de Contacto">
+                <div class="input-group-append">
+                  <div title="Telefono del Contacto" class="input-group-text">
+                    <span class="fas fa-phone"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botón de Registro -->
+        <div class="row">
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary btn-block">{{actionLabel}}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <ngx-spinner type="ball-scale-multiple"></ngx-spinner>

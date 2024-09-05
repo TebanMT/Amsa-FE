@@ -1,0 +1,28 @@
+.linked {
+    background-color: #dff0d8 !important;  /* un verde claro */
+  }
+  
+  .unlinked {
+    background-color: #f2dede !important; /* un rojo claro */
+  }
+
+  .input-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.info-group {
+    display: flex;
+    gap: 20px; /* Espacio entre elementos de información */
+}
+
+.button-group {
+    display: flex;
+    gap: 10px; /* Espacio entre botones */
+}
+
+.btn {
+    white-space: nowrap; /* Evita que los textos de los botones se envuelvan */
+}

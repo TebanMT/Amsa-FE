@@ -1,14 +1,19 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Renderer2, ElementRef   } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { User } from '../../_models/user';
 import { UserService } from '../../_services/user.service';
+import { ClientService } from "../../_services/client.service";
 import { AuthenticationService } from "../../_services/authentication.service";
 import { Router } from '@angular/router';
 
 import { AlertService, } from "../../_services/alert.service";
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from "ngx-spinner";
+
 
 @Component({
   selector: 'app-register-user-content',
@@ -16,21 +21,77 @@ import { AlertService, } from "../../_services/alert.service";
   styles: []
 })
 export class RegisterUserContentComponent implements OnInit, OnDestroy {
+
+  @ViewChild('nuevoClienteModal', { static: false }) nuevoClienteModal: any;
+  @ViewChild('detalleModal', { static: false }) detalleModal: any;
+  @ViewChild('productosModal', { static: false }) productosModal: any;
+  @ViewChild('editarModal', { static: false }) editarModal: any;
+
+  @ViewChild('eliminarClienteModal',  { static: false }) eliminarClienteModal: ElementRef;
+  clienteSeleccionado: any; // Asume que tienes un tipo para tu cliente
+
+
   currentUser: User;
   currentUserSubscription: Subscription;
   users: User[] = [];
+  clients: any[] = [];
   registerFormUser: FormGroup;
   usuario_check:Boolean = false;
   admin_check:Boolean = false;
   submittedUser = false;
   loading = false;
 
+  productosDelCliente = [
+    { nombre: 'Producto 1', cantidad: 2, precio: 150.00, fechaVenta: new Date(2021, 0, 15) },
+    { nombre: 'Producto 2', cantidad: 1, precio: 200.00, fechaVenta: new Date(2021, 2, 22) },
+    { nombre: 'Producto 3', cantidad: 3, precio: 99.99, fechaVenta: new Date(2021, 5, 30) },
+    // Más productos...
+  ];
+
+  client = {
+    id: 0,
+    name: "",
+    phone:"",
+    email: "",
+    address: "",
+    description: "",
+    activated: false,
+    contacts: []
+  };
+
+
   constructor(private authenticationService: AuthenticationService,
     private userService: UserService, private formBuilder: FormBuilder,
-    private router: Router,
-    private alertService: AlertService) {
+    private router: Router, private renderer: Renderer2,
+    private alertService: AlertService, private toastr: ToastrService,
+    private clientService: ClientService, private cdRef: ChangeDetectorRef,
+    private spinner: NgxSpinnerService) {
         this.currentUserSubscription = this.authenticationService.currentUser.subscribe(user => {
             this.currentUser = user;
+            this.loadData()
+        });
+
+        this.clientService.clienteActualizado$.subscribe(cliente => {
+          if (cliente) {
+            this.loadData()
+          }
+        });
+    }
+
+    loadData() {
+      this.spinner.show();
+      this.clientService.getAll(Number(this.currentUser['user'].company_id))
+        .subscribe(
+          data => {
+            if (data) {
+              this.clients = data.filter(client => client.activated && client.activated === true);
+            }
+            this.spinner.hide();
+          },
+          error => {
+            this.spinner.hide();
+            this.mostrarMensajeError('Error al Obtener los Clientes');
+            this.submittedUser = false;
         });
     }
 
@@ -47,6 +108,7 @@ export class RegisterUserContentComponent implements OnInit, OnDestroy {
           usuario_retry_password: ['', [Validators.required, Validators.minLength(6)]],
           usuario_rol_id: ['',],
       });
+      
   }
 
   onSubmit(){
@@ -113,5 +175,85 @@ export class RegisterUserContentComponent implements OnInit, OnDestroy {
     // unsubscribe to ensure no memory leaks
     this.currentUserSubscription.unsubscribe();
   }
+
+  closeModal() {
+    this.renderer.setStyle(this.nuevoClienteModal.nativeElement, 'display', 'none');
+    this.removeModalBackdrop();
+
+  }
+
+  removeModalBackdrop() {
+    const backdrops = document.getElementsByClassName('modal-backdrop') as HTMLCollectionOf<HTMLElement>;
+    for (let i = 0; i < backdrops.length; i++) {
+      backdrops[i].style.display = 'none';
+    }
+    document.body.classList.remove('modal-open'); // Restaura el desplazamiento (scroll) del body
+  }
+
+  cerrarModalProductos() {
+    this.renderer.setStyle(this.productosModal.nativeElement, 'display', 'none');
+    this.removeModalBackdrop();
+  }
+
+  cerrarModalDetalle() {
+    this.renderer.setStyle(this.detalleModal.nativeElement, 'display', 'none');
+    this.removeModalBackdrop();
+  }
+
+  closeModalEditar() {
+    this.renderer.setStyle(this.editarModal.nativeElement, 'display', 'none');
+    this.removeModalBackdrop();
+
+  }
+
+  abrirModalEliminar(cliente) {
+    this.clienteSeleccionado = cliente;
+    this.eliminarClienteModal.nativeElement.style.display = 'block';
+  }
+
+  cerrarModalEliminar() {
+    this.renderer.setStyle(this.eliminarClienteModal.nativeElement, 'display', 'none');
+    this.removeModalBackdrop();
+  }
+
+  confirmarEliminacion() {
+    this.spinner.show();
+    this.clientService.deactivate(this.client.id)
+    .pipe(first())
+    .subscribe(
+      data => {
+        if (data['deactivate']) {
+          this.loadData();
+          this.mostrarMensajeExito('Cliente Eliminado Exitosamente');
+          this.cerrarModalEliminar();
+          this.loading = false;
+        }else{
+          this.loadData()
+          this.mostrarMensajeError("Error al Eliminar el Cliente");
+          this.cerrarModalEliminar();
+        }
+        this.spinner.hide();
+      },
+      error => {
+        this.loadData()
+        this.mostrarMensajeError("Error al Eliminar el Cliente");
+        this.cerrarModalEliminar();
+        this.loading = false;
+      });
+  }
+
+  mostrarMensajeExito(mensaje: string) {
+    this.toastr.success(mensaje, 'Exito');
+  }
+
+  mostrarMensajeError(mensaje: string) {
+    this.toastr.error(mensaje, 'Error');
+  }
+
+  setClient(client: any){
+    console.log(client)
+    this.client = client
+  }
+
 
 }

@@ -1,6 +1,6 @@
 <div class="register-box">
     <div class="register-logo">
-        <a routerLink="/login" class="text-center"><b>Admin</b> Track The Way</a>
+        <a routerLink="/login" class="text-center"><b>AMSA</b> </a>
     </div>
 
     <div class="card" *ngIf="!showUserForm">
@@ -8,10 +8,10 @@
             <p class="login-box-msg">Registra tu Empresa</p>
             <form [formGroup]="registerFormEmpresa" (ngSubmit)="changeUserForm()">
                 <div class="input-group mb-3">
-                    <input type="text" formControlName="empresa_nombre" class="form-control" placeholder="Name de tu Empresa" [ngClass]="{ 'is-invalid': submittedEmpresa && f.empresa_nombre.errors }">
+                    <input type="text" formControlName="empresa_nombre" class="form-control" placeholder="Nombre de tu Empresa" [ngClass]="{ 'is-invalid': submittedEmpresa && f.empresa_nombre.errors }">
                     <div class="input-group-append">
                         <div class="input-group-text">
-                            <span class="fas fa-user"></span>
+                            <span class="fa fa-building"></span>
                         </div>
                     </div>
                     <div *ngIf="submittedEmpresa && f.empresa_nombre.errors" class="invalid-feedback">
@@ -33,7 +33,7 @@
                     <input type="text" class="form-control" formControlName="empresa_pais" placeholder="Pais" [ngClass]="{ 'is-invalid': submittedEmpresa && f.empresa_pais.errors }">
                     <div class="input-group-append">
                         <div class="input-group-text">
-                            <span class="fas fa-user"></span>
+                            <span class="fas fa-globe"></span>
                         </div>
                     </div>
                     <div *ngIf="submittedEmpresa && f.empresa_pais.errors" class="invalid-feedback">
@@ -44,7 +44,7 @@
                         <input type="text" formControlName="empresa_estado" class="form-control" placeholder="Estado" [ngClass]="{ 'is-invalid': submittedEmpresa && f.empresa_estado.errors }">
                         <div class="input-group-append">
                             <div class="input-group-text">
-                                <span class="fas fa-user"></span>
+                                <span class="fas fa-map"></span>
                             </div>
                         </div>
                         <div *ngIf="submittedEmpresa && f.empresa_estado.errors" class="invalid-feedback">
@@ -55,7 +55,7 @@
                             <input type="text" formControlName="empresa_direccion" class="form-control" placeholder="Direccion" [ngClass]="{ 'is-invalid': submittedEmpresa && f.empresa_direccion.errors }">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-user"></span>
+                                    <span class="fas fa-map-marker"></span>
                                 </div>
                             </div>
                             <div *ngIf="submittedEmpresa && f.empresa_direccion.errors" class="invalid-feedback">
@@ -106,7 +106,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" formControlName="usuario_apellido_m" placeholder="Apellido Materno" [ngClass]="{ 'is-invalid': submittedUser && u.usuario_apellido_m.errors }">
+                        <input type="text" class="form-control" formControlName="usuario_apellido_m" placeholder="Apellido Materno (Opcional)" [ngClass]="{ 'is-invalid': submittedUser && u.usuario_apellido_m.errors }">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -146,7 +146,7 @@
                             </div>
                         </div>
                         <div *ngIf="submittedUser && u.usuario_password.errors" class="invalid-feedback">
-                            <div *ngIf="u.usuario_password.required">La contraseña es requerida</div>
+                            <div *ngIf="u.usuario_password.errors.required">La contraseña es requerida</div>
                         </div>
                     </div>
                     <div class="input-group mb-3">
@@ -157,7 +157,7 @@
                             </div>
                         </div>
                         <div *ngIf="submittedUser && u.usuario_retry_password.errors" class="invalid-feedback">
-                            <div *ngIf="u.usuario_retry_password.required">La contraseña es requerida</div>
+                            <div *ngIf="u.usuario_retry_password.errors.required">La contraseña es requerida</div>
                         </div>
                     </div>
                     <div class="row">
@@ -177,7 +177,7 @@
                     <!-- /.col -->
                     </div>
                 </form>
-                <a (click)="changeEmpresaForm()" class="text-center">Volver a registro de empresa</a>
+                <!--a (click)="changeEmpresaForm()" class="text-center">Volver a registro de empresa</a-->
                 <br>
                 <a routerLink="/login" class="text-center">Ya cuento con una cuenta</a>
             </div>

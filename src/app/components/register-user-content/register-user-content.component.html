@@ -1,113 +1,215 @@
+
+
+
+
+
+
+  
 <div class="content-wrapper">
-        <div class="register-logo">
-            <a routerLink="/login" class="text-center"><b>Registra</b> tus Usuarios</a>
+    <div class="register-logo">
+        <a class="text-center"><b>Listado</b> Clientes</a>
+    </div>
+    <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Clientes Activos</h3>
+          <!-- Botón para agregar nuevo registro -->
+          <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#nuevoClienteModal">
+            <i class="fas fa-plus"></i> Agregar Nuevo Cliente
+          </button>
         </div>
-        <div class="card">
-                <div class="card-body register-card-body">
-                    <p class="login-box-msg">Registra tus Usuarios</p>
-                    <form [formGroup]="registerFormUser" (ngSubmit)="onSubmit()">
-                        <div class="input-group mb-3">
-                            <input type="text" formControlName="usuario_nombre" class="form-control" placeholder="Nombre" [ngClass]="{ 'is-invalid': submittedUser && u.usuario_nombre.errors }">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-user"></span>
-                                </div>
-                            </div>
-                            <div *ngIf="submittedUser && u.usuario_nombre.errors" class="invalid-feedback">
-                                <div *ngIf="u.usuario_nombre.errors.required">Nombre es requerido</div>
-                            </div>
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="text" formControlName="usuario_apellido_p" class="form-control" placeholder="Apellido Paterno" [ngClass]="{ 'is-invalid': submittedUser && u.usuario_apellido_p.errors }">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-envelope"></span>
-                                </div>
-                            </div>
-                            <div *ngIf="submittedUser && u.usuario_apellido_p.errors" class="invalid-feedback">
-                                <div *ngIf="u.usuario_apellido_p.errors.required">El Apellido Paterno requerido</div>
-                            </div>
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" formControlName="usuario_apellido_m" placeholder="Apellido Materno" [ngClass]="{ 'is-invalid': submittedUser && u.usuario_apellido_m.errors }">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-user"></span>
-                                </div>
-                            </div>
-                            <div *ngIf="submittedUser && u.usuario_apellido_m.errors" class="invalid-feedback">
-                                <div *ngIf="u.usuario_apellido_m.errors.required">El Apellido Materno es requerido</div>
-                            </div>
-                        </div>
-                        <div class="input-group mb-3">
-                                <input type="text" formControlName="usuario_correo" class="form-control" placeholder="Email (opcional)" [ngClass]="{ 'is-invalid': submittedUser && u.usuario_correo.errors }">
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-user"></span>
-                                    </div>
-                                </div>
-                                <div *ngIf="submittedUser && u.usuario_correo.errors" class="invalid-feedback">
-                                    <div *ngIf="u.usuario_correo.errors.required">Email es requerido</div>
-                                </div>
-                            </div>
-                            <div class="input-group mb-3">
-                                    <input type="text" formControlName="usuario_nombre_usuario" class="form-control" placeholder="Nombre de Usuario" [ngClass]="{ 'is-invalid': submittedUser && u.usuario_nombre_usuario.errors }">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-user"></span>
-                                        </div>
-                                    </div>
-                                    <div *ngIf="submittedUser && u.usuario_nombre_usuario.errors" class="invalid-feedback">
-                                        <div *ngIf="u.usuario_nombre_usuario.errors.required">El nombre de usuario es requerido</div>
-                                    </div>
-                                </div>
-                        <div class="input-group mb-3">
-                            <input type="password" formControlName="usuario_password" class="form-control" placeholder="Password" [ngClass]="{ 'is-invalid': submittedUser && u.usuario_password.errors }">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-lock"></span>
-                                </div>
-                            </div>
-                            <div *ngIf="submittedUser && u.usuario_password.errors" class="invalid-feedback">
-                                <div *ngIf="u.usuario_password.required">La contraseña es requerida</div>
-                            </div>
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="password" formControlName="usuario_retry_password" class="form-control" placeholder="Vuelva a ingresar su password" [ngClass]="{ 'is-invalid': submittedUser && u.usuario_retry_password.errors }">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-lock"></span>
-                                </div>
-                            </div>
-                            <div *ngIf="submittedUser && u.usuario_retry_password.errors" class="invalid-feedback">
-                                <div *ngIf="u.usuario_retry_password.required">La contraseña es requerida</div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-4">
-                                <div class="icheck-primary">
-                                    <input [value]="usuario_check" type="checkbox" id="user" name="user" value="agree" (change)="usuarioChange($event)">
-                                    <label for="user">
-                                        Usuario
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="icheck-primary">
-                                    <input [value]="admin_check" type="checkbox" id="admin" name="admin" value="agree" (change)="adminChange($event)">
-                                    <label for="admin">
-                                        Administrador
-                                    </label>
-                                </div>
-                            </div>
-                            <!-- /.col -->
-                            <div class="col-4">
-                                <button *ngIf="!loading" type="submit" class="btn btn-primary btn-block">Registrar</button>
-                                <img *ngIf="loading" class="pl-3" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-                            </div>
-                        <!-- /.col -->
-                        </div>
-                    </form>
-                </div>
-            </div><!-- /.card -->
+        <!-- /.card-header -->
+        <div class="card-body">
+          <table id="example1" class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+                <th>Saldo</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let c of clients">
+                <td>{{ c.id }}</td>
+                <td>{{ c.name }}</td>
+                <td>{{ c.phone }}</td>
+                <td>{{ c.email }}</td>
+                <td>$0.00</td>
+                <td>
+                  <!-- Icono de Ver Contacto -->
+                  <button class="btn btn-info btn-sm"  style="margin-right: 10px;" title="Ver contacto" data-toggle="modal"  data-target="#detalleModal" (click)="setClient(c)">
+                    <i class="fas fa-info-circle"></i>
+                  </button>
+                  <!-- Icono de Ver Productos -->
+                  <button class="btn btn-warning btn-sm" style="margin-right: 10px;" title="Ver productos" data-toggle="modal"  data-target="#productosModal">
+                    <i class="fas fa-box-open"></i>
+                  </button>
+                  <!-- Icono de Editar -->
+                  <button class="btn btn-primary btn-sm" style="margin-right: 10px;" title="Editar Cliente" data-toggle="modal"  data-target="#editarModal" (click)="setClient(c)">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <!-- Icono de Eliminar -->
+                  <button class="btn btn-danger btn-sm" style="margin-right: 10px;" title="Eliminar Cliente" data-toggle="modal"  data-target="#eliminarClienteModal" (click)="setClient(c)">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </td>
+              </tr>
+              <!-- Repite <tr> para más filas -->
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+                <th>Saldo</th>
+                <th>Acciones</th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
 </div>
+
+
+<div class="modal fade" #nuevoClienteModal id="nuevoClienteModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="modalLabel" style="text-align: center; width: 100%;"><b>Nuevo</b> Cliente</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <app-nuevo-cliente-form (closeModalEvent)="closeModal()" [user]="currentUser"></app-nuevo-cliente-form> <!-- Selector de tu componente de formulario -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+<!-- Modal para Editar -->
+<div class="modal fade" #editarModal id="editarModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="modalLabel" style="text-align: center; width: 100%;"><b>Editar</b> Cliente</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <app-nuevo-cliente-form (closeModalEvent)="closeModalEditar()" [currentClient]="client" [user]="currentUser"></app-nuevo-cliente-form>
+          </div>
+        </div>
+      </div>
+  </div>
+  
+
+
+<!-- Modal para Eliminar Cliente -->
+<div class="modal fade" #eliminarClienteModal id="eliminarClienteModal" tabindex="-1" role="dialog" aria-labelledby="eliminarClienteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="eliminarClienteModalLabel">Eliminar Cliente</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cerrarModalEliminar()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>¿Estás seguro de que deseas desactivar este cliente? Esta acción no se puede deshacer.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="confirmarEliminacion()">Desactivar</button>
+          <button type="button" class="btn btn-secondary" (click)="cerrarModalEliminar()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+
+  <!-- Modal para Ver Detalles -->
+<div class="modal fade" #detalleModal id="detalleModal" tabindex="-1" role="dialog" aria-labelledby="detalleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="detalleModalLabel">Detalle del Cliente</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cerrarModalDetalle()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Aquí va el contenido del detalle del cliente -->
+          <div class="card">
+            <div class="card-body">
+              <p class="card-text"><strong>Nombre del Cliente:</strong> {{ client.name }}</p>
+              <p class="card-text"><strong>Email:</strong> {{ client.email }}</p>
+              <p class="card-text"><strong>Teléfono:</strong> {{ client.phone }}</p>
+              <p class="card-text"><strong>Dirección:</strong> {{ client.address }}</p>
+              <p class="card-text"><strong>Descripción:</strong> {{ client.description }}</p>
+              <!-- Otros detalles que desees mostrar -->
+            </div>
+          </div>
+
+          <div class="card mt-3">
+            <div class="card-body" *ngFor="let c of client.contacts">
+              <h5 class="card-title">Información de Contacto</h5>
+              <p class="card-text"><strong>Nombre de Contacto:</strong> {{ c.name }}</p>
+              <p class="card-text"><strong>Email de Contacto:</strong> {{ c.email }}</p>
+              <p class="card-text"><strong>Teléfono de Contacto:</strong> {{ c.phone }}</p>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+ <!-- Modal para Ver Productos -->
+<!-- Modal para Ver Productos -->
+<div class="modal fade" #productosModal id="productosModal" tabindex="-1" role="dialog" aria-labelledby="productosModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="productosModalLabel">Productos Vendidos al Cliente</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Tabla de productos -->
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Precio</th>
+              <th>Fecha de Venta</th>
+              <!-- Otros campos que desees incluir -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let producto of productosDelCliente">
+              <td>{{ producto.nombre }}</td>
+              <td>{{ producto.cantidad }}</td>
+              <td>{{ producto.precio | currency }}</td>
+              <td>{{ producto.fechaVenta | date }}</td>
+              <!-- Otros campos del producto -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>

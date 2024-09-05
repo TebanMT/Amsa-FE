@@ -16,13 +16,8 @@ export class UserService {
         return this.http.get(`http://localhost:4000/users/${id}`);
     }
 
-    register(user?: User, empresa?: Empresa);
-    register(user: User, empresa: Empresa) {
-        var data_to_send = user || empresa
-        if (empresa != null && user != null) {
-            data_to_send = Object.assign(user, empresa);
-        }
-        return this.http.post('http://localhost:3000/users/register', data_to_send);
+    register(user: any) {
+        return this.http.post('https://4mjctue6h4.execute-api.us-east-1.amazonaws.com/prod/user', user);
     }
 
 

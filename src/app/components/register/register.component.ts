@@ -63,7 +63,8 @@ export class RegisterComponent implements OnInit {
     get u() { return this.registerFormUser.controls; }
 
     onSubmit(){
-        this.submittedUser = true;
+        this.router.navigate(['/login']);
+        /*this.submittedUser = true;
         // stop here if form is invalid
 
         if (this.registerFormUser.invalid) {
@@ -86,7 +87,7 @@ export class RegisterComponent implements OnInit {
                 error => {
                     this.alertService.error(error);
                     this.loading = false;
-                });
+                });*/
 
     }
 

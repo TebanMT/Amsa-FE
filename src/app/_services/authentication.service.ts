@@ -19,11 +19,12 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
-    login(username: string, password: string, enterprise_user: String ) {
-        return this.http.post<any>('http://localhost:3000/users/authenticate', { username, password, enterprise_user })
+    login(username: string, password: string) {
+        return this.http.get<any>('https://4mjctue6h4.execute-api.us-east-1.amazonaws.com/prod/auth?username='+username+'&password='+password)
             .pipe(map(user => {
+                console.log("SERVICE USER = ", user)
                 // login successful if there's a jwt token in the response
-                if (user && user.token) {
+                if (user && user.authenticated) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(user));
                     this.currentUserSubject.next(user);

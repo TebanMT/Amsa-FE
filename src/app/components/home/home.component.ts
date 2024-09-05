@@ -6,6 +6,7 @@ import { User } from '../../_models/user';
 import { UserService } from '../../_services/user.service';
 import { AuthenticationService } from "../../_services/authentication.service";
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({ templateUrl: 'home.component.html' })
 export class HomeComponent implements OnInit, OnDestroy {
@@ -17,6 +18,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         private authenticationService: AuthenticationService,
         private userService: UserService,
         private router: Router,
+        private spinner: NgxSpinnerService
     ) {
         this.currentUserSubscription = this.authenticationService.currentUser.subscribe(user => {
             this.currentUser = user;
@@ -24,10 +26,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.spinner.show();
         let element = document.getElementById('body')
         element.className = 'hold-transition sidebar-mini layout-fixed'
-        this.loadAllUsers();
-        console.log(this.currentUser)
+        this.spinner.hide();
     }
 
     ngOnDestroy() {

@@ -1,0 +1,145 @@
+
+<div class="card">
+    <div class="card-body register-card-body">
+      <form [formGroup]="registerOrdenCompra" (ngSubmit)="onSubmit()">
+        <!-- Fecha -->
+        <div class="input-group mb-3">
+          <input type="date" formControlName="date" [value]="today | date:'yyyy-MM-dd'" class="form-control" placeholder="Fecha" [ngClass]="{ 'is-invalid': submittedOrdenCompra && u.date.errors }">
+          <div class="input-group-append">
+            <div title="Fecha" class="input-group-text">
+              <span class="fas fa-calendar"></span>
+            </div>
+          </div>
+          <div *ngIf="submittedOrdenCompra && u.date.errors" class="invalid-feedback">
+            <div *ngIf="u.date.errors.required">La Fecha es requerida</div>
+          </div>
+        </div>
+
+
+
+        <!-- Folio -->
+        <div class="input-group mb-3">
+            <input type="text" formControlName="folio" class="form-control" (blur)="checkFolio()" placeholder="Folio de la Factura" [ngClass]="{ 'is-invalid': submittedOrdenCompra && u.folio.errors || isDuplicate }">
+            <div class="input-group-append">
+              <div title="Folio" class="input-group-text">
+                <span class="fas fa-key"></span>
+              </div>
+            </div>
+
+            <div *ngIf="isDuplicate" class="invalid-feedback">
+                <div *ngIf="isDuplicate">El Folio debe ser único y no puede duplicarse</div>
+              </div>
+            
+            <div *ngIf="submittedOrdenCompra && u.folio.errors" class="invalid-feedback">
+              <div *ngIf="u.folio.errors.required">El Folio es requerido</div>
+            </div>
+        </div>
+
+
+
+  
+        <!-- Cliente -->
+        <div class="input-group mb-3">
+            <select formControlName="supplier" class="form-control" placeholder="Cliente" [ngClass]="{ 'is-invalid': submittedOrdenCompra && u.supplier.errors }">
+                <option value="" selected disabled hidden>Selecciona un Proveedor</option>
+                <option *ngFor="let c of proveedores" [ngValue]="c.ID">{{c.Name}}</option>
+                <!-- Más categorías aquí -->
+            </select>
+          <div class="input-group-append">
+            <div title="Proveedor"  class="input-group-text">
+              <span class="fas fa-user"></span>
+            </div>
+          </div>
+          <div *ngIf="submittedOrdenCompra && u.supplier.errors" class="invalid-feedback">
+            <div *ngIf="u.supplier.errors.required">El Proveedor es requerido</div>
+          </div>
+        </div>
+
+
+        <!-- Tabla para productos -->
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="w-25">Producto</th>
+                        <th class="w-10">Cantidad</th>
+                        <th class="w-15">Precio Unitario</th>
+                        <th class="w-25">Iva</th>
+                        <th class="w-25">Sub Total</th>
+                        <th class="w-25">Total</th>
+                        <th class="w-15">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody formArrayName="products">
+                  <tr *ngFor="let producto of productos.controls; let i = index" [formGroupName]="i">
+                    <!-- Selector de Producto -->
+                    <td >
+                      <select formControlName="product"  class="form-control" [ngClass]="{'is-invalid': submittedOrdenCompra && producto.get('product').errors}">
+                        <option value="" disabled hidden>Selecciona un Producto</option>
+                        <option *ngFor="let p of productsCompra" [ngValue]="p">{{p.Name}}</option>
+                      </select>
+                      <div *ngIf="submittedOrdenCompra && producto.get('product').errors" class="invalid-feedback">
+                        <div *ngIf="producto.get('product').errors?.required">El Producto es requerido</div>
+                    </div>
+                    </td>
+        
+                    <!-- Cantidad -->
+                    <td>
+                      <input type="number" formControlName="amount" class="form-control" [ngClass]="{ 'is-invalid': submittedOrdenCompra && producto.get('amount').errors }">
+                      <div *ngIf="submittedOrdenCompra && producto.get('amount').errors" class="invalid-feedback">
+                        <div *ngIf="producto.get('amount').errors?.required">La Cantidad es requerida</div>
+                      </div>
+                    </td>
+        
+                    <!-- Precio Unitario -->
+                    <td>
+                      <input type="number" formControlName="unitPrice" class="form-control"readonly>
+                    </td>
+        
+                    <!-- Iva -->
+                    <td>
+                        <input type="number" formControlName="ivaPrice" class="form-control" readonly>
+                    </td>
+        
+                    <!-- SubTotal -->
+                    <td>
+                      <input type="number" formControlName="subTotal" class="form-control" readonly>
+                    </td>
+        
+                    <!-- Total -->
+                    <td>
+                    <input type="number" formControlName="total" class="form-control" readonly>
+                    </td>
+        
+                    <!-- Botón para eliminar producto -->
+                    <td>
+                      <button type="button" class="btn btn-danger" (click)="removeProducto(i)">Eliminar</button>
+                    </td>
+                  </tr>
+                </tbody>
+        
+                <tfoot>
+                    <tr>
+                        <th colspan="7">
+                            <button type="button" class="btn btn-primary" (click)="addProducto()">Añadir Producto</button>
+                        </th>
+                    </tr>
+                </tfoot>
+                      <!-- Botón para añadir más productos -->
+              
+              </table>
+        </div>
+
+    
+        <!-- Botón de Registro -->
+        <div class="row">
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary btn-block">Registrar Orden de Compra</button>
+            </div>
+          </div>
+        
+      </form>
+    </div>
+  </div>
+
+  <ngx-spinner type="ball-scale-multiple"></ngx-spinner>

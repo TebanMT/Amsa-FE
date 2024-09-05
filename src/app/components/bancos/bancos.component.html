@@ -1,0 +1,79 @@
+<div class="content-wrapper">
+    <div class="register-logo">
+        <a class="text-center"><b></b>Chequera</a>
+    </div>
+    <div class="card">
+
+
+      <div class="card-header">
+        <div class="input-group">
+            <div class="info-group">
+                <span class="info-item">Abonos: <b>${{ abonos | number:'1.2-2' }}</b></span>
+                <span class="info-item">Retiros: <b>${{ retiros | number:'1.2-2' }}</b></span>
+                <span class="info-item">Diff: <b>${{ abonos - retiros | number:'1.2-2' }}</b></span>
+            </div>
+            <div class="button-group">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#vincluarTransaction" (click)="setLabel('Factura')">
+                    <i class="fas fa-link"></i> Vincular Facturas
+                </button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#vincluarTransaction" (click)="setLabel('Orden de Compra')">
+                    <i class="fas fa-link"></i> Vincular Ordenes de Compra
+                </button>
+            </div>
+        </div>
+    </div>
+    
+      
+        <!-- /.card-header -->
+        <div class="card-body">
+
+          <table id="facturas" class="table table-striped" >
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Folio</th>
+                <th>+/-</th>
+                <th>Vinculado</th>
+                <th>Cantidad</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let b of mergeBillsPurchaseOrder " [ngClass]="{'linked': b.Client_id, 'unlinked': b.Supplier_id}">
+                <td *ngIf="b.Status=='Linked'">{{ b.DateLinked | date: 'yyyy-MM-dd':'UTC' }}</td>
+                <td  *ngIf="b.Client_id && b.Status=='Linked'">{{b.Client.name}}</td>
+                <td *ngIf="b.Supplier_id && b.Status=='Linked'">{{b.Supplier.Name}}</td>
+                <td *ngIf="b.Client_id && b.Status=='Linked'">Cliente</td>
+                <td *ngIf="b.Supplier_id && b.Status=='Linked'">Proveedor</td>
+                <td *ngIf="b.Client_id &&  b.Status=='Linked'" > {{ b.Date | date: 'yyyy-MM-dd':'UTC' }} | F-{{b.Folio}} </td>
+                <td *ngIf="b.Supplier_id && b.Status=='Linked'" > {{ b.OrderDate | date: 'yyyy-MM-dd':'UTC' }} | O-{{b.Folio}} </td>
+                <td *ngIf="b.Client_id && b.Status=='Linked'"> <i class="fas fa-plus"></i> </td>
+                <td *ngIf="b.Supplier_id && b.Status=='Linked'"> <i class="fas fa-minus"></i> </td>
+                <td *ngIf="b.Status=='Linked'" > $0.00 </td>
+                <td *ngIf="b.Status=='Linked'" > ${{b.Total}} </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+</div>
+
+
+
+<div class="modal fade" #vincluarTransaction id="vincluarTransaction" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document"> <!-- Ajusta aquí para un modal más ancho -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="modalLabel" style="text-align: center; width: 100%;"><b>Vincular</b> {{typeLabelToLink}}</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <app-vincular-factura (closeModalEvent)="closeModal()" [user]="currentUser" [transaction]="currentTransaction" ></app-vincular-factura> <!-- Tu componente de formulario -->
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,34 @@
+<div class="card-body">
+
+    <table id="trans" class="table table-striped" >
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Nombre</th>
+          <th>Folio</th>
+          <th>Total</th>
+          <th>De Abono</th>
+          <th>A saldo</th>
+          <th>Vincular</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let t of transaction" >
+          <td *ngIf="t.Supplier" >{{ t.OrderDate | date: 'yyyy-MM-dd':'UTC' }}</td>
+          <td *ngIf="t.Client" >{{ t.Date | date: 'yyyy-MM-dd':'UTC' }}</td>
+          <td *ngIf="t.Supplier">{{ t.Supplier.Name  }}</td>
+          <td *ngIf="t.Client">{{ t.Client.name  }}</td>
+          <td>{{  t.Folio }} </td>
+          <td>${{ t.Total | number:'1.2-2' }}</td>
+          <td>${{ t.Total | number:'1.2-2' }}</td>
+          <td><input type="checkbox" id="myCheckbox" checked disabled></td>
+          <td *ngIf="t.Status!='Linked'">
+              <button class="btn btn-primary btn-sm" style="margin-right: 10px;" title="Ver Detalle" data-toggle="modal" data-target="#vincluarTran" (click)="vincular(t)">
+                  <i class="fas fa-link"></i>
+              </button>
+          </td>
+          <td *ngIf="t.Status == 'Linked'"><input type="checkbox" id="myCheckbox" checked disabled></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
